@@ -26,5 +26,4 @@ env/
 # dotenv
 .env
 
-
 similarity.pkl
