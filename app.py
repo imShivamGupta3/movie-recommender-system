@@ -2,15 +2,27 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import os
+import gdown
 
 # Load data
 movies_dict = pickle.load(open('movies_dict.pkl', 'rb'))
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+#similarity = pickle.load(open('similarity.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
 
 # Constants
 API_KEY = '02dcab7bfa9d780d5a30cb03d8353250'
 NUM_RECOMMENDATIONS = 10
+
+
+# Check if similarity.pkl exists; if not, download it
+if not os.path.exists("similarity.pkl"):
+    file_id = "1EcYrKcwllvPIbqO9QIrtGPw3iufZA28A"  # replace with your actual file ID
+    gdown.download(f"https://drive.google.com/uc?id={file_id}", "similarity.pkl", quiet=False)
+
+# Now load it
+with open('similarity.pkl', 'rb') as f:
+    similarity = pickle.load(f)
 
 # Fetch poster from TMDB
 def fetch_poster(movie_id):
